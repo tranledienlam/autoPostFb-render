@@ -16,7 +16,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
 campaigns = data.data
-delay = 1000*60*60
+delay = 20000
 
 main = async () => {
     i = 0
