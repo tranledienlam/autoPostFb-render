@@ -4,9 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
-    "build": "ng build",
-    "heroku-postbuild": "ng build --prod"
+    "start": "node index.js"
   },
   "author": "",
   "license": "ISC",
