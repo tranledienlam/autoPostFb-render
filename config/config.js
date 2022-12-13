@@ -1,0 +1,2 @@
+exports.PORT= process.env.PORT || '4000'
+exports.accessToken = 'EAAM2pw6uN10BAHvZCkiPYdjD7tGqPnuyg6R5oZCaR3hMwHjcWkUHUZAz5CQ4dAMt3rICFEnnAidltr5J7ho0JZA2fGsiJ4cNjubocPXp42zzaChkcAx73llZBSuEZAORhh0Yp0KkZC1phWvdnlv2xSIeyzT4zoKtKo36To7b41eRjMKUXECH5UdjUHW3vC1qfRVjRAC3qTbwZB65f9AhkuXQ'
