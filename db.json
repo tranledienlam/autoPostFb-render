@@ -29,7 +29,8 @@
         "id": "5301138938841977333",
         "name": "Vamo 240K/CPS",
         "link": "https://shorten.asia/7D7xJepw",
-        "sub_category": "Vay ngắn hạn"
+        "sub_category": "Vay ngắn hạn",
+        "block": true
       },
       {
         "id": "5213572788075905357",

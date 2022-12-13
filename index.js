@@ -16,7 +16,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
 campaigns = data.data
-delay = 20000
+delay = 1000*60
 
 app.get('/', (req, res) => {
     res.json({'success': true})
@@ -25,6 +25,7 @@ app.get('/', (req, res) => {
 main = async () => {
     i = 0
     count = 0
+    fail = 0
     function myLoop() {
         setTimeout(async () => {
             if (campaigns[i]) {
@@ -32,12 +33,17 @@ main = async () => {
                     .then(data => {
                         console.log(data)
                     })
-                    .catch(err => console.log(err))
+                    .catch(err => {
+                        fail++
+                        console.log(err)
+                })
                 i++;
                 count++;
-                console.log(`index ${i-1}, tông ${count}`)
+                console.log(`name ${campaigns[i].name}, tông ${count}`)
             } else i=0
-            myLoop();
+            if( fail <10 ) {
+                myLoop();
+            }
         }, delay)
     }
     myLoop();
