@@ -16,8 +16,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
 campaigns = data.data
-delay = 10000
-
+delay = 1000*60*60
 app.get('/', (req, res) => {
     res.json({'success': true})
 })
@@ -46,7 +45,7 @@ main = async () => {
             }
         }, delay)
     }
-    
+
     myLoop();
 }
 
