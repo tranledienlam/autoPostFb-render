@@ -18,7 +18,7 @@ app.use(express.json())
 campaigns = data.data
 delay = 20000
 
-app.get('/', (res, req) => {
+app.get('/', (req, res) => {
     res.json({'success': true})
 })
 
