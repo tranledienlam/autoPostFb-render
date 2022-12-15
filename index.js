@@ -33,7 +33,7 @@ main = async () => {
     i = 0
     count = 0
     fail = 0
-    delay = 1000 * 60 * 60
+    delay = 1000 * 60 * 65*2
 
     function myLoop() {
         
@@ -51,7 +51,7 @@ main = async () => {
                     message = await handleMessage(campaigns[i])
                     
                     // post to phtoto
-                    if(campaigns[i]?.typePost == "photo") {
+                    if(campaigns[i]?.urlPhoto) {
 
                         await handlePublishPagePost.toPhoto(accessToken, message, campaigns[i].urlPhoto)
                             .then(data => {

@@ -10,13 +10,17 @@ const handlePublishPagePost = {
         return data
     },
     toPhoto: async (accessToken, message, urlPhoto) => {
-        console.log(message)
+
         var url = `https://graph.facebook.com/me/photos?url=${urlPhoto}&message=${message}&access_token=${accessToken}`
-        const response = await fetch(url, {
-            method: 'POST',
-        });
-        const data = await response.json();
-        return data
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+            });
+            const data = await response.json();
+            return data
+        } catch (error) {
+            console.log(error)
+        }
     },
 }
 
