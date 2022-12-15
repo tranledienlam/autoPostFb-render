@@ -34,7 +34,13 @@ main = async () => {
     count = 0
     fail = 0
     delay = 1000 * 60 * 65*2
-
+    timeSecond = 0
+    function countSecond() {
+        setTimeout(()=>{
+            console.log(timeSecond+=5)
+            countSecond()
+        }, 5000)
+    }
     function myLoop() {
         
         setTimeout(async () => {
@@ -89,6 +95,7 @@ main = async () => {
     }
 
     myLoop();
+    countSecond();
 }
 
 main()
