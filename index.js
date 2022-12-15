@@ -52,7 +52,6 @@ main = async () => {
                     
                     // post to phtoto
                     if(campaigns[i]?.typePost == "photo") {
-                        console.log(campaigns[i].urlPhoto)
 
                         await handlePublishPagePost.toPhoto(accessToken, message, campaigns[i].urlPhoto)
                             .then(data => {
@@ -86,7 +85,7 @@ main = async () => {
             if (fail < 10) {
                 myLoop();
             }
-        }, 20000)
+        }, 120000)
     }
 
     myLoop();
