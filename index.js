@@ -85,7 +85,7 @@ main = async () => {
             if (fail < 10) {
                 myLoop();
             }
-        }, 120000)
+        }, delay)
     }
 
     myLoop();
