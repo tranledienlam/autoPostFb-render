@@ -37,7 +37,8 @@ main = async () => {
     timeSecond = 0
     function countSecond() {
         setTimeout(()=>{
-            console.log(timeSecond+=5)
+            timeSecond+=5
+            console.log(delay/1000-timeSecond)
             countSecond()
         }, 5000)
     }
