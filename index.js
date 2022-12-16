@@ -1,6 +1,5 @@
 
 const express = require('express');
-const data = require('./db.json')
 // const { default: fetch } = require('node-fetch')
 
 const { PORT, accessToken, URL_WEB } = require('./config/config');
@@ -10,9 +9,9 @@ const FinancialServicesCampaignsSchema = require('./models/Campaigns');
 const loadFinancialServicesCampaigns = require('./modules/loadFinancialServicesCampaigns');
 const handleMessage = require('./modules/handleMessage');
 const formatTime = require('./modules/formatTime');
+const handleTargetPost = require('./modules/handleTargetPost');
 
 const app = express();
-
 
 app.set('views', './views')
 app.set('view engine', 'ejs')
@@ -34,7 +33,7 @@ main = async () => {
     i = 0
     posted = 0
     fail = 0
-    delay = 60 // s
+    delay = 60*60*2 // s*m*h
     step = 5
     countdown = delay // change s
 
@@ -49,13 +48,19 @@ main = async () => {
                 if (campaigns[i]?.block != true) {
 
                     message = await handleMessage(campaigns[i])
-                    
+                    targetPost = await handleTargetPost()
+                    console.log(targetPost)
                     // post to phtoto
                     if(campaigns[i]?.urlPhoto) {
-
-                        await handlePublishPagePost.toPhoto(accessToken, message, campaigns[i].urlPhoto)
+                        // if(false) {
+                        await handlePublishPagePost.toPhoto(accessToken,targetPost, message, campaigns[i].urlPhoto)
                             .then(data => {
-                                console.log(`toPhoto www.facebook.com/${data.post_id}`)
+
+                                if(data.error) {
+                                    console.log(data.error)
+                                    console.log(`toPhoto www.facebook.com/${targetPost}`)
+                                } else console.log(`toPhoto www.facebook.com/${data.post_id}`)
+
                                 posted++;
                             })
                             .catch(err => {
@@ -64,9 +69,14 @@ main = async () => {
                             })
                     } else {
                         //default post to link
-                        await handlePublishPagePost.toLink(accessToken, message, campaigns[i].link)
+                        await handlePublishPagePost.toLink(accessToken, targetPost, message, campaigns[i].link)
                             .then(data => {
-                                console.log(`toLink www.facebook.com/${data.id}`)
+                                
+                                if(data.error) {
+                                    console.log(data.error)
+                                    console.log(`toLink www.facebook.com/${targetPost}`)
+                                } else console.log(`toLink www.facebook.com/${data.post_id}`)
+
                                 posted++;
                             })
                             .catch(err => {
