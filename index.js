@@ -34,7 +34,7 @@ main = async () => {
     i = 0
     posted = 0
     fail = 0
-    delay = 60 // s
+    delay = 60*150 // s
     step = 5
     countdown = delay // change s
 
