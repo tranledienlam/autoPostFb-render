@@ -36,8 +36,8 @@ main = async () => {
     i = 0
     posted = handleFileTxt.toRead()
     fail = 0
-    delay = 60*55// s*m*h max 1h, because heroku up to down
-    step = 5
+    delay = 60*40// s*m*h max 1h, because heroku up to down
+    step = 10
     countdown = delay // change s
 
     const publishPagePost = async () => {
