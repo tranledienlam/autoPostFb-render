@@ -33,7 +33,7 @@ main = async () => {
     i = 0
     posted = 0
     fail = 0
-    delay = 60*60*2 // s*m*h
+    delay = 60*60*1.5 // s*m*h
     step = 5
     countdown = delay // change s
 
