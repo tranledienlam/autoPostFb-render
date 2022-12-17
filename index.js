@@ -1,5 +1,6 @@
 
 const express = require('express');
+const fs = require('fs');
 // const { default: fetch } = require('node-fetch')
 
 const { PORT, accessToken, URL_WEB } = require('./config/config');
@@ -11,6 +12,7 @@ const handleMessage = require('./modules/handleMessage');
 const formatTime = require('./modules/formatTime');
 const handleRandomTargetPost = require('./modules/handleRandomTargetPost');
 const handleRandomCampaignPost = require('./modules/handleRandomCampaignPost');
+const handleFileTxt = require('./modules/handleFileTxt');
 
 const app = express();
 
@@ -32,9 +34,9 @@ main = async () => {
     campaigns = []
     message = ''
     i = 0
-    posted = 0
+    posted = handleFileTxt.toRead()
     fail = 0
-    delay = 60*55 // s*m*h max 1h, because heroku up to down
+    delay = 60*0.1// s*m*h max 1h, because heroku up to down
     step = 5
     countdown = delay // change s
 
@@ -42,7 +44,7 @@ main = async () => {
                     //load data campaigns
             await loadFinancialServicesCampaigns()
                 .then(data => campaigns = data)
-            console.log(campaigns.length)
+            
             // random target and campain to post
             i = await handleRandomCampaignPost(campaigns)
             targetPost = await handleRandomTargetPost()
@@ -65,7 +67,7 @@ main = async () => {
                                     console.log(`toPhoto www.facebook.com/${targetPost}`)
                                 } else console.log(`toPhoto www.facebook.com/${data.post_id}`)
 
-                                posted++;
+                                handleFileTxt.toWrite(posted++);
                             })
                             .catch(err => {
                                 fail++
@@ -81,7 +83,7 @@ main = async () => {
                                     console.log(`toLink www.facebook.com/${targetPost}`)
                                 } else console.log(`toLink www.facebook.com/${data.post_id}`)
 
-                                posted++;
+                                handleFileTxt.toWrite(posted++);
                             })
                             .catch(err => {
                                 fail++
