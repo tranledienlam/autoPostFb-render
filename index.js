@@ -9,7 +9,8 @@ const FinancialServicesCampaignsSchema = require('./models/Campaigns');
 const loadFinancialServicesCampaigns = require('./modules/loadFinancialServicesCampaigns');
 const handleMessage = require('./modules/handleMessage');
 const formatTime = require('./modules/formatTime');
-const handleTargetPost = require('./modules/handleTargetPost');
+const handleRandomTargetPost = require('./modules/handleRandomTargetPost');
+const handleRandomCampaignPost = require('./modules/handleRandomCampaignPost');
 
 const app = express();
 
@@ -33,7 +34,7 @@ main = async () => {
     i = 0
     posted = 0
     fail = 0
-    delay = 60*60*1.5 // s*m*h
+    delay = 60*55 // s*m*h max 1h, because heroku up to down
     step = 5
     countdown = delay // change s
 
@@ -41,6 +42,10 @@ main = async () => {
                     //load data campaigns
             await loadFinancialServicesCampaigns()
                 .then(data => campaigns = data)
+            console.log(campaigns.length)
+            // random target and campain to post
+            i = await handleRandomCampaignPost(campaigns)
+            targetPost = await handleRandomTargetPost()
 
             //check array đến cuối mảng
             if (campaigns[i]) {
@@ -48,7 +53,6 @@ main = async () => {
                 if (campaigns[i]?.block != true) {
 
                     message = await handleMessage(campaigns[i])
-                    targetPost = await handleTargetPost()
                     console.log(targetPost)
                     // post to phtoto
                     if(campaigns[i]?.urlPhoto) {

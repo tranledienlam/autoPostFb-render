@@ -4,9 +4,9 @@ targetPosts = [
     '932940416866676', //Ứng dụng vay tiền nhanh online
 ]
 
-const handleTargetPost = async () => {
+const handleRandomTargetPost = async () => {
     index = Math.floor(Math.random()* targetPosts.length)
     return targetPosts[index]
 }
 
-module.exports = handleTargetPost
+module.exports = handleRandomTargetPost
