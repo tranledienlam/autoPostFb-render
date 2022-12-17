@@ -36,7 +36,7 @@ main = async () => {
     i = 0
     posted = handleFileTxt.toRead()
     fail = 0
-    delay = 60*0.1// s*m*h max 1h, because heroku up to down
+    delay = 60*55// s*m*h max 1h, because heroku up to down
     step = 5
     countdown = delay // change s
 
