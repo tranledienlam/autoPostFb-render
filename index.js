@@ -36,7 +36,7 @@ main = async () => {
     i = 0
     posted = handleFileTxt.toRead()
     fail = 0
-    delay = 60*40// s*m*h max 1h, because heroku up to down
+    delay = 60*60*2// s*m*h max 1h, because heroku up to down
     step = 10
     countdown = delay // change s
 
@@ -48,6 +48,7 @@ main = async () => {
             // random target and campain to post
             i = await handleRandomCampaignPost(campaigns)
             targetPost = await handleRandomTargetPost()
+            // targetPost = '1815586361982058'
 
             //check array đến cuối mảng
             if (campaigns[i]) {
@@ -117,6 +118,7 @@ main = async () => {
     }
 
     countdownPost();
+
 }
 
 main()
