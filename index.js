@@ -13,6 +13,8 @@ const formatTime = require('./modules/formatTime');
 const handleRandomTargetPost = require('./modules/handleRandomTargetPost');
 const handleRandomCampaignPost = require('./modules/handleRandomCampaignPost');
 const handleFileTxt = require('./modules/handleFileTxt');
+const handleRandomTime = require('./modules/handleRandomTime');
+const { time } = require('console');
 
 const app = express();
 
@@ -36,8 +38,8 @@ main = async () => {
     i = 0
     posted = handleFileTxt.toRead()
     fail = 0
-    delay = 60*20// s*m*h max 1h, because heroku up to down
-    step = 10
+    delay = handleRandomTime(25) //enter minute, +/-40%
+    step = 60
     countdown = delay // change s
 
     const publishPagePost = async () => {
@@ -48,7 +50,8 @@ main = async () => {
             // random target and campain to post
             i = await handleRandomCampaignPost(campaigns)
             targetPost = await handleRandomTargetPost()
-            // targetPost = '1815586361982058'
+            targetPost = '667237784136460'
+            i = campaigns.length -1
 
             //check array đến cuối mảng
             if (campaigns[i]) {
