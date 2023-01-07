@@ -50,8 +50,6 @@ main = async () => {
             // random target and campain to post
             i = await handleRandomCampaignPost(campaigns)
             targetPost = await handleRandomTargetPost()
-            targetPost = '667237784136460'
-            i = campaigns.length -1
 
             //check array đến cuối mảng
             if (campaigns[i]) {
@@ -106,7 +104,7 @@ main = async () => {
         setTimeout(async ()=>{
             countdown -= step
             if(countdown<=0){
-                countdown = delay
+                countdown = handleRandomTime(25)
                 await publishPagePost()
             } else {
                 console.log(`${formatTime(countdown)} - posted: ${posted} - fail: ${fail}`)
