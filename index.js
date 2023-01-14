@@ -3,7 +3,7 @@ const express = require('express');
 const fs = require('fs');
 // const { default: fetch } = require('node-fetch')
 
-const { PORT, accessToken, URL_WEB } = require('./config/config');
+const { PORT, URL_WEB } = require('./config/config');
 const handlePublishPagePost = require('./modules/handlePublishPagePost');
 const connectDB = require('./config/db');
 const FinancialServicesCampaignsSchema = require('./models/Campaigns');
@@ -15,6 +15,7 @@ const handleRandomCampaignPost = require('./modules/handleRandomCampaignPost');
 const handleFileTxt = require('./modules/handleFileTxt');
 const handleRandomTime = require('./modules/handleRandomTime');
 const { time } = require('console');
+const randomPageAndGroup = require('./modules/randomPageAndGroup');
 
 const app = express();
 
@@ -38,7 +39,7 @@ main = async () => {
     i = 0
     posted = handleFileTxt.toRead()
     fail = 0
-    delay = handleRandomTime(25) //enter minute, +/-40%
+    delay = 5 // handleRandomTime(23) //enter minute, +/-40%
     step = 60
     countdown = delay // change s
 
@@ -47,11 +48,17 @@ main = async () => {
             await loadFinancialServicesCampaigns()
                 .then(data => campaigns = data)
             
-            // random target and campain to post
+            // random campain to post
             i = await handleRandomCampaignPost(campaigns)
-            targetPost = await handleRandomTargetPost()
-            targetPost = '667237784136460'
-            i = campaigns.length -1
+
+            // random page and group
+            pageAndGroup = await randomPageAndGroup()
+            accessToken = pageAndGroup.accessToken
+            fromPage = pageAndGroup.fromPage
+            groupid = pageAndGroup.toGroup
+            // groupid = await handleRandomTargetPost()
+            // groupid = '206323667357617'
+            // i = campaigns.length -1
 
             //check array đến cuối mảng
             if (campaigns[i]) {
@@ -59,16 +66,16 @@ main = async () => {
                 if (campaigns[i]?.block != true) {
 
                     message = await handleMessage(campaigns[i])
-                    console.log(targetPost)
+                    console.log(fromPage - groupid)
                     // post to phtoto
                     if(campaigns[i]?.urlPhoto) {
                         // if(false) {
-                        await handlePublishPagePost.toPhoto(accessToken,targetPost, message, campaigns[i].urlPhoto)
+                        await handlePublishPagePost.toPhoto(accessToken,groupid, message, campaigns[i].urlPhoto)
                             .then(data => {
 
                                 if(data.error) {
                                     console.log(data.error)
-                                    console.log(`toPhoto www.facebook.com/${targetPost}`)
+                                    console.log(`toPhoto www.facebook.com/${groupid}`)
                                 } else console.log(`toPhoto www.facebook.com/${data.post_id}`)
 
                                 handleFileTxt.toWrite(posted++);
@@ -79,12 +86,12 @@ main = async () => {
                             })
                     } else {
                         //default post to link
-                        await handlePublishPagePost.toLink(accessToken, targetPost, message, campaigns[i].link)
+                        await handlePublishPagePost.toLink(accessToken, groupid, message, campaigns[i].link)
                             .then(data => {
                                 
                                 if(data.error) {
                                     console.log(data.error)
-                                    console.log(`toLink www.facebook.com/${targetPost}`)
+                                    console.log(`toLink www.facebook.com/${groupid}`)
                                 } else console.log(`toLink www.facebook.com/${data.post_id}`)
 
                                 handleFileTxt.toWrite(posted++);
@@ -106,7 +113,7 @@ main = async () => {
         setTimeout(async ()=>{
             countdown -= step
             if(countdown<=0){
-                countdown = delay
+                countdown = handleRandomTime(23)
                 await publishPagePost()
             } else {
                 console.log(`${formatTime(countdown)} - posted: ${posted} - fail: ${fail}`)
