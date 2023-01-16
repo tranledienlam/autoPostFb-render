@@ -10,11 +10,8 @@ const FinancialServicesCampaignsSchema = require('./models/Campaigns');
 const loadFinancialServicesCampaigns = require('./modules/loadFinancialServicesCampaigns');
 const handleMessage = require('./modules/handleMessage');
 const formatTime = require('./modules/formatTime');
-const handleRandomTargetPost = require('./modules/handleRandomTargetPost');
 const handleRandomCampaignPost = require('./modules/handleRandomCampaignPost');
-const handleFileTxt = require('./modules/handleFileTxt');
 const handleRandomTime = require('./modules/handleRandomTime');
-const { time } = require('console');
 const randomPageAndGroup = require('./modules/randomPageAndGroup');
 
 const app = express();
@@ -37,9 +34,9 @@ main = async () => {
     campaigns = []
     message = ''
     i = 0
-    posted = handleFileTxt.toRead()
+    posted = 0
     fail = 0
-    delay = 5 // handleRandomTime(23) //enter minute, +/-40%
+    delay = handleRandomTime(23) //enter minute, +/-40%
     step = 60
     countdown = delay // change s
 
@@ -56,7 +53,6 @@ main = async () => {
             accessToken = pageAndGroup.accessToken
             fromPage = pageAndGroup.fromPage
             groupid = pageAndGroup.toGroup
-            // groupid = await handleRandomTargetPost()
             // groupid = '206323667357617'
             // i = campaigns.length -1
 
@@ -66,39 +62,32 @@ main = async () => {
                 if (campaigns[i]?.block != true) {
 
                     message = await handleMessage(campaigns[i])
-                    console.log(fromPage - groupid)
+                    
                     // post to phtoto
                     if(campaigns[i]?.urlPhoto) {
-                        // if(false) {
+                        console.log(`${fromPage} -> toPhoto ${groupid}`)
                         await handlePublishPagePost.toPhoto(accessToken,groupid, message, campaigns[i].urlPhoto)
                             .then(data => {
-
                                 if(data.error) {
                                     console.log(data.error)
-                                    console.log(`toPhoto www.facebook.com/${groupid}`)
-                                } else console.log(`toPhoto www.facebook.com/${data.post_id}`)
-
-                                handleFileTxt.toWrite(posted++);
+                                }
                             })
                             .catch(err => {
                                 fail++
-                                console.log(err)
+                                console.log(`failed: ${fail} - ${err}`)
                             })
                     } else {
+                        console.log(`${fromPage} -> toLink ${groupid}`)
                         //default post to link
                         await handlePublishPagePost.toLink(accessToken, groupid, message, campaigns[i].link)
                             .then(data => {
-                                
                                 if(data.error) {
                                     console.log(data.error)
-                                    console.log(`toLink www.facebook.com/${groupid}`)
-                                } else console.log(`toLink www.facebook.com/${data.post_id}`)
-
-                                handleFileTxt.toWrite(posted++);
+                                }
                             })
                             .catch(err => {
                                 fail++
-                                console.log(err)
+                                console.log(`failed: ${fail} - ${err}`)
                             })
                     }
                 } else {
@@ -113,8 +102,8 @@ main = async () => {
         setTimeout(async ()=>{
             countdown -= step
             if(countdown<=0){
-                countdown = handleRandomTime(23)
                 await publishPagePost()
+                countdown = handleRandomTime(23)
             } else {
                 console.log(`${formatTime(countdown)} - posted: ${posted} - fail: ${fail}`)
             }
@@ -131,8 +120,9 @@ main = async () => {
 
 }
 
-main()
 
 app.listen(PORT, () => {
     console.log('server running ', PORT) 
+    main()
+    console.log(`start ${formatTime(countdown)} - posted: ${posted} - fail: ${fail}`)
 })
