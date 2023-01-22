@@ -36,8 +36,8 @@ main = async () => {
     i = 0
     posted = 0
     fail = 0
-    delay = handleRandomTime(23) //enter minute, +/-40%
-    step = 60
+    delay = 120// handleRandomTime(23) //enter minute, +/-40%
+    step = 5
     countdown = delay // change s
 
     const publishPagePost = async () => {
@@ -53,7 +53,8 @@ main = async () => {
             accessToken = pageAndGroup.accessToken
             fromPage = pageAndGroup.fromPage
             groupid = pageAndGroup.toGroup
-            // groupid = '206323667357617'
+            // accessToken = 'EAAKcMOZCuOcwBAIzZCU5ozPmqoPR3NZCBVgRdUBaEBQoKGw75kcV86IT5kTIaI6w79UGW6yaA0yCQ9pGyJziP74AFZArhcaZCUgA89Xy2dAksuRNpH1ma59xJZC1omDe9P99tWtlZCYQ2ZCP5wXeEiowlvd2QXe4J40KxUqZAiusjkBlWXoKr30V2'
+            // groupid = 'me'
             // i = campaigns.length -1
 
             //check array đến cuối mảng
@@ -71,6 +72,7 @@ main = async () => {
                                 if(data.error) {
                                     console.log(data.error)
                                 }
+                                posted++
                             })
                             .catch(err => {
                                 fail++
@@ -84,6 +86,7 @@ main = async () => {
                                 if(data.error) {
                                     console.log(data.error)
                                 }
+                                posted++
                             })
                             .catch(err => {
                                 fail++

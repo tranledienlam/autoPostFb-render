@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const { Schema } = mongoose
 
 const financialServicesCampaignsSchema = new Schema({
-    idCampaign: String,
+    idCampaign: {type: String, required: false},
     name: String, // *
     introduction: String,
     desc: String,
