@@ -37,7 +37,7 @@ main = async () => {
     posted = 0
     fail = 0
     delay = 120// handleRandomTime(23) //enter minute, +/-40%
-    step = 5
+    step = 60
     countdown = delay // change s
 
     const publishPagePost = async () => {
