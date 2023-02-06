@@ -1,6 +1,6 @@
 const { URL_WEB } = require("../config/config")
 
-tags='%23toicantien %23toi_can_tien%0A%23vay_nhanh %23vay_không_cần_thế_chấp %23vay_chỉ_cần_cmnd %23vay_tiêu_dùng %23Vay_Tiền_Online %23Vay_trả_góp'
+//tags='%23toicantien %23toi_can_tien%0A%23vay_nhanh %23vay_không_cần_thế_chấp %23vay_chỉ_cần_cmnd %23vay_tiêu_dùng %23Vay_Tiền_Online %23Vay_trả_góp'
 
 const handleMessage = async (campaign) => {
     const {
@@ -18,9 +18,7 @@ const handleMessage = async (campaign) => {
         "Tổng hợp: "+URL_WEB+"%0A"+"%0A"+
         "Mọi thông tin mang tính chất tham khảo, chi tiết có thể thay đổi tùy thuộc vào từng thời điểm của dịch vụ đăng ký"+"%0A"+
         "----"+"%0A"+
-        "%23"+name.replace(/ /g,"_").replace(/-/g,"")+"%0A"+
-        (sub_category? ("%23"+sub_category.replace(/ /g,"_").replace(/-/g,"")+"%0A"):"")+
-        tags
+        '%23list_app_vay_tien'
     )
 }
 
