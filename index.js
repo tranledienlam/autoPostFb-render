@@ -106,7 +106,7 @@ main = async () => {
             countdown -= step
             if(countdown<=0){
                 await publishPagePost()
-                countdown = handleRandomTime(23)
+                countdown = handleRandomTime(22)
             } else {
                 console.log(`${formatTime(countdown)} - posted: ${posted} - fail: ${fail}`)
             }
