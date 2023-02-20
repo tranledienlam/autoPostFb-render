@@ -1,7 +1,6 @@
 
 const express = require('express');
 const fs = require('fs');
-// const { default: fetch } = require('node-fetch')
 
 const { PORT, URL_WEB } = require('./config/config');
 const handlePublishPagePost = require('./modules/handlePublishPagePost');
@@ -36,8 +35,8 @@ main = async () => {
     i = 0
     posted = 0
     fail = 0
-    delay = 120// handleRandomTime(23) //enter minute, +/-40%
-    step = 60
+    delay = 15// handleRandomTime(23) //enter minute, +/-40%
+    step = 5
     countdown = delay // change s
 
     const publishPagePost = async () => {
@@ -53,8 +52,11 @@ main = async () => {
             accessToken = pageAndGroup.accessToken
             fromPage = pageAndGroup.fromPage
             groupid = pageAndGroup.toGroup
-            // accessToken = 'EAAKcMOZCuOcwBAIzZCU5ozPmqoPR3NZCBVgRdUBaEBQoKGw75kcV86IT5kTIaI6w79UGW6yaA0yCQ9pGyJziP74AFZArhcaZCUgA89Xy2dAksuRNpH1ma59xJZC1omDe9P99tWtlZCYQ2ZCP5wXeEiowlvd2QXe4J40KxUqZAiusjkBlWXoKr30V2'
-            // groupid = 'me'
+            // cantienlaco
+            accessToken = 'EAAKcMOZCuOcwBAGXyZBfPAq1ldvGYAOG4kfCHJnLcfZBQo3q20GZCTRmGrwq4tKZAvNbNA6ZBc6zj0HjC20lFB1WrJ0ZALJU88MPXK6Vk8LcgZB9fNvXQAQgf3ivsvSOcMvuXH4T3Wj0dm8y0jUf1FddNgNJSXegxdlmacyFU6kDkYQZCzauKOUOV'
+            // canvaytien
+            // accessToken = 'EAAKcMOZCuOcwBACDxgVFylcfZCSSjSHz2COsYYxLDqRBr4hPPlqwwn25f2b2pLoEhvtvA68ZB4mBzjAGNSXgnOn0w4szE7MQvR5JANvd38AXn0ORzuU0gEdHKW9QyBsKF3GBdtz2E0G1qaHo9G8yXZBZBi3B2yZBsvuVJGg2lZA4f4sEefK6AJY'
+            // groupid = '1503733296496603' 
             // i = campaigns.length -1
 
             //check array đến cuối mảng
@@ -69,9 +71,6 @@ main = async () => {
                         console.log(`${fromPage} -> toPhoto ${groupid}`)
                         await handlePublishPagePost.toPhoto(accessToken,groupid, message, campaigns[i].urlPhoto)
                             .then(data => {
-                                if(data.error) {
-                                    console.log(data.error)
-                                }
                                 posted++
                             })
                             .catch(err => {
@@ -83,9 +82,6 @@ main = async () => {
                         //default post to link
                         await handlePublishPagePost.toLink(accessToken, groupid, message, campaigns[i].link)
                             .then(data => {
-                                if(data.error) {
-                                    console.log(data.error)
-                                }
                                 posted++
                             })
                             .catch(err => {
