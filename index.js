@@ -53,7 +53,7 @@ main = async () => {
             fromPage = pageAndGroup.fromPage
             groupid = pageAndGroup.toGroup
             // cantienlaco
-            accessToken = 'EAAKcMOZCuOcwBAGXyZBfPAq1ldvGYAOG4kfCHJnLcfZBQo3q20GZCTRmGrwq4tKZAvNbNA6ZBc6zj0HjC20lFB1WrJ0ZALJU88MPXK6Vk8LcgZB9fNvXQAQgf3ivsvSOcMvuXH4T3Wj0dm8y0jUf1FddNgNJSXegxdlmacyFU6kDkYQZCzauKOUOV'
+            // accessToken = 'EAAKcMOZCuOcwBAGXyZBfPAq1ldvGYAOG4kfCHJnLcfZBQo3q20GZCTRmGrwq4tKZAvNbNA6ZBc6zj0HjC20lFB1WrJ0ZALJU88MPXK6Vk8LcgZB9fNvXQAQgf3ivsvSOcMvuXH4T3Wj0dm8y0jUf1FddNgNJSXegxdlmacyFU6kDkYQZCzauKOUOV'
             // canvaytien
             // accessToken = 'EAAKcMOZCuOcwBACDxgVFylcfZCSSjSHz2COsYYxLDqRBr4hPPlqwwn25f2b2pLoEhvtvA68ZB4mBzjAGNSXgnOn0w4szE7MQvR5JANvd38AXn0ORzuU0gEdHKW9QyBsKF3GBdtz2E0G1qaHo9G8yXZBZBi3B2yZBsvuVJGg2lZA4f4sEefK6AJY'
             // groupid = '1503733296496603' 
