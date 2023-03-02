@@ -1,8 +1,8 @@
-const FinancialServicesCampaignsSchema = require("../models/Campaigns")
+const ContentsSchema = require("../models/Content")
 
 const loadFinancialServicesCampaigns = async () => {
-    const campaigns = await FinancialServicesCampaignsSchema.find({block: {$not: {$eq: true}}})
-    return campaigns
+    const contents = await ContentsSchema.find({block: {$not: {$eq: true}}})
+    return contents
 }
 
 module.exports = loadFinancialServicesCampaigns

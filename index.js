@@ -5,7 +5,6 @@ const fs = require('fs');
 const { PORT, URL_WEB } = require('./config/config');
 const handlePublishPagePost = require('./modules/handlePublishPagePost');
 const connectDB = require('./config/db');
-const FinancialServicesCampaignsSchema = require('./models/Campaigns');
 const loadFinancialServicesCampaigns = require('./modules/loadFinancialServicesCampaigns');
 const handleMessage = require('./modules/handleMessage');
 const formatTime = require('./modules/formatTime');
@@ -30,22 +29,18 @@ app.get('/', (req, res) => {
 }) 
 
 main = async () => {
-    campaigns = []
+    contents = []
     message = ''
     i = 0
     posted = 0
     fail = 0
-    delay = 120// handleRandomTime(23) //enter minute, +/-40%
-    step = 60
-    countdown = delay // change s
+    start = 20// handleRandomTime(23) //enter minute, +/-40%
+    step = 5
+    countdown = start // change s
 
     const publishPagePost = async () => {
-                    //load data campaigns
-            await loadFinancialServicesCampaigns()
-                .then(data => campaigns = data)
-            
             // random campain to post
-            i = await handleRandomCampaignPost(campaigns)
+            i = await handleRandomCampaignPost(contents)
 
             // random page and group
             pageAndGroup = await randomPageAndGroup()
@@ -53,56 +48,59 @@ main = async () => {
             fromPage = pageAndGroup.fromPage
             groupid = pageAndGroup.toGroup
             // cantienlaco
-            // accessToken = 'EAAKcMOZCuOcwBAGXyZBfPAq1ldvGYAOG4kfCHJnLcfZBQo3q20GZCTRmGrwq4tKZAvNbNA6ZBc6zj0HjC20lFB1WrJ0ZALJU88MPXK6Vk8LcgZB9fNvXQAQgf3ivsvSOcMvuXH4T3Wj0dm8y0jUf1FddNgNJSXegxdlmacyFU6kDkYQZCzauKOUOV'
-            // canvaytien
-            // accessToken = 'EAAKcMOZCuOcwBACDxgVFylcfZCSSjSHz2COsYYxLDqRBr4hPPlqwwn25f2b2pLoEhvtvA68ZB4mBzjAGNSXgnOn0w4szE7MQvR5JANvd38AXn0ORzuU0gEdHKW9QyBsKF3GBdtz2E0G1qaHo9G8yXZBZBi3B2yZBsvuVJGg2lZA4f4sEefK6AJY'
-            // groupid = '1503733296496603' 
-            // i = campaigns.length -1
+            accessToken = 'EAAKcMOZCuOcwBAGXyZBfPAq1ldvGYAOG4kfCHJnLcfZBQo3q20GZCTRmGrwq4tKZAvNbNA6ZBc6zj0HjC20lFB1WrJ0ZALJU88MPXK6Vk8LcgZB9fNvXQAQgf3ivsvSOcMvuXH4T3Wj0dm8y0jUf1FddNgNJSXegxdlmacyFU6kDkYQZCzauKOUOV'
+            groupid = 'me'
+            // i = contents.length -1
+            // i = 2
 
-            //check array đến cuối mảng
-            if (campaigns[i]) {
-                //check url có bị block không?
-                if (campaigns[i]?.block != true) {
-
-                    message = await handleMessage(campaigns[i])
-                    
-                    // post to phtoto
-                    if(campaigns[i]?.urlPhoto) {
-                        console.log(`${fromPage} -> toPhoto ${groupid}`)
-                        await handlePublishPagePost.toPhoto(accessToken,groupid, message, campaigns[i].urlPhoto)
-                            .then(data => {
-                                posted++
-                            })
-                            .catch(err => {
-                                fail++
-                                console.log(`failed: ${fail} - ${err}`)
-                            })
-                    } else {
-                        console.log(`${fromPage} -> toLink ${groupid}`)
-                        //default post to link
-                        await handlePublishPagePost.toLink(accessToken, groupid, message, campaigns[i].link)
-                            .then(data => {
-                                posted++
-                            })
-                            .catch(err => {
-                                fail++
-                                console.log(`failed: ${fail} - ${err}`)
-                            })
-                    }
+            message = await handleMessage(contents[i])
+            // post to phtoto
+            if(contents[i]?.toPhoto) {
+                console.log(`${fromPage} -> toPhoto ${groupid}`)
+                await handlePublishPagePost.toPhoto(accessToken,groupid, message, contents[i].toPhoto)
+                    .then(data => {
+                        posted++
+                    })
+                    .catch(err => {
+                        fail++
+                        console.log(`failed: ${fail} - ${err}`)
+                    })
+            } else {
+                if (contents[i]?.toLink) {
+                    console.log(`${fromPage} -> toLink ${groupid}`)
+                    await handlePublishPagePost.toLink(accessToken, groupid, message, contents[i].toLink)
+                        .then(data => {
+                            posted++
+                        })
+                        .catch(err => {
+                            fail++
+                            console.log(`failed: ${fail} - ${err}`)
+                        })
                 } else {
-                    console.log(`name ${campaigns[i].name} bị block url`)
+                    console.log(`${fromPage} -> toText ${groupid}`)
+                    await handlePublishPagePost.toText(accessToken, groupid, message)
+                        .then(data => {
+                            posted++
+                        })
+                        .catch(err => {
+                            fail++
+                            console.log(`failed: ${fail} - ${err}`)
+                        })
                 }
-                i++;
-                console.log(`name ${campaigns[i-1].name}, tông ${posted}, fail ${fail}`)
-            } else i = 0
+            }
+            console.log(`name ${contents[i].name}, tông ${posted}, fail ${fail}`)
     }
 
-    function countdownPost() {
+    const countdownPost = async () => {
+        //load data contents
+        await loadFinancialServicesCampaigns()
+        .then(data => contents = data)
+        //countdown
         setTimeout(async ()=>{
             countdown -= step
             if(countdown<=0){
                 await publishPagePost()
-                countdown = handleRandomTime(10)
+                countdown = handleRandomTime((1440/contents.length))
             } else {
                 console.log(`${formatTime(countdown)} - posted: ${posted} - fail: ${fail}`)
             }

@@ -1,0 +1,10 @@
+[
+    {
+        "fromPage": "toicantien",
+        "toGroup": "me"
+    },
+    {
+        "fromPage": "cantienlaco",
+        "toGroup": "me"
+    }
+]
