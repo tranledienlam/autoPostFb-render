@@ -1,0 +1,75 @@
+HƯỚNG DẪN DATABASE CHO TOOL AUTO POST
+Tính năng của tool
+
+- random page đăng
+- random group 
+- random contents
+- random thời gian post (trung bình1 page/1group/1 bài/ngày)
+- tự động xóa đi group khi page bị block khỏi group hoặc fb xóa group vi phạm
+
+======
+cài đặt vào hộ mình
+Cài đặt MongoDB Compass (window/linux/macOS)
+https://www.mongodb.com/try/download/compass
+tìm đến Compass -> chọn hệ điều hành
+
+Kết nối data
+-> link mình đã/sẽ gửi qua mail cho các bạn đã đăng ký
+copy link đó, và connect 
+
+SET DATABASE ban đầu
+làm việc trong database campaigns nhé
+ở đây, mình đã set sẵn page test của mình, các bạn thay đổi 
+làm theo trình tự
+
+1. pageaccesstokens
+Lấy token page, theo hướng dẫn video 2
+https://www.youtube.com/watch?v=ZA5fNUtSCCk
+trường hợp ko biết lấy, chưa lấy được, liên hệ mình qua group zalo 
+
+2. pagesandgroups
+Trước khi thêm id group, phải test group "post được không?"
+test thành công thì lấy id group gắn vào database
+
+fromPage: tên page bên mục token (phải trùng nhé)
+toGroup: id group sẽ post (nếu "me", post lên tường page)
+
+3. contents
+Có 3 cách post: text, link, photo
+
+Nếu có toPhoto -> post hình ảnh
+
+Nếu có toLink -> post dạng link
+
+không có toPhoto và toLink -> post text
+
+ví dụ:
+- Thêm 1 content
+Muốn đăng kiểu link hay photto hay text, thì...
+Muốn xuống dòng, thêm ký tư %0A vào cuối
+
+- Sửa 1 content
+ok
+
+- Xóa 1 content
+click thùng rác, click delete
+
+- Tìm danh sách của 1 page
+làm sao tìm danh sách group của 1 page đã tham gia?
+nhập này vào ô : {fromPage: "autopost1"}
+
+Hướng dẫn cách đăng tin có hoa lá hẹ cành:
+Mẹo tạo định dạng cho content:
+- Viết mẫu 1 bài trên fb. và copy paste vào database
+- thêm %0A để xuống dòng
+Vậy là được 1 bài chất lượng nhé
+
+
+Lưu ý khi sử dụng tool:
+- Các bạn phải cập nhật database trong 30 ngày, nếu không tool sẽ dừng
+- post bài: page tham gia post 100-150 group. 1 ngày/1post/page
+- thời gian đã set dao động theo số lượng group add vào. tránh các bạn dùng tool spam quá nhiều
+- tránh vi phạm, phải chuẩn bị cho mình 15-20 content. page sẽ luân phiên lấy content đăng
+
+Ok cám ơn các bạn đã theo dõi. Cần hỗ trợ gì, vui lòng liên hệ zalo, fb
+

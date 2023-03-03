@@ -2,7 +2,7 @@
 const express = require('express');
 const fs = require('fs');
 
-const { PORT, URL_WEB } = require('./config/config');
+const { PORT } = require('./config/config');
 const handlePublishPagePost = require('./modules/handlePublishPagePost');
 const connectDB = require('./config/db');
 const loadFinancialServicesCampaigns = require('./modules/loadFinancialServicesCampaigns');
@@ -34,8 +34,9 @@ main = async () => {
     i = 0
     posted = 0
     fail = 0
-    start = 20// handleRandomTime(23) //enter minute, +/-40%
-    step = 5
+    start = 23// handleRandomTime(23) //enter minute, +/-40%
+    countTime = 0
+    step = 60
     countdown = start // change s
 
     const publishPagePost = async () => {
@@ -47,9 +48,9 @@ main = async () => {
             accessToken = pageAndGroup.accessToken
             fromPage = pageAndGroup.fromPage
             groupid = pageAndGroup.toGroup
-            // cantienlaco
-            accessToken = 'EAAKcMOZCuOcwBAGXyZBfPAq1ldvGYAOG4kfCHJnLcfZBQo3q20GZCTRmGrwq4tKZAvNbNA6ZBc6zj0HjC20lFB1WrJ0ZALJU88MPXK6Vk8LcgZB9fNvXQAQgf3ivsvSOcMvuXH4T3Wj0dm8y0jUf1FddNgNJSXegxdlmacyFU6kDkYQZCzauKOUOV'
-            groupid = 'me'
+            // autopost1
+            // accessToken = 'EAAKe2QystAcBABRdwUppDuW0VpdeBsBqK6nvEG0idqwEFUvqriYC4TwUhgkqtBf731YaATwPKZC8aW5ByaBymynewxZBZCGJJetgdaxU4E0UZAK58VZBP5NThSYkgl00ZByN0unpIHh3GBWWhZCwd0ZBadMdDOmELIeZBDlalerX0L8XoaTkEfilY'
+            // groupid = 'me'
             // i = contents.length -1
             // i = 2
 
@@ -97,12 +98,17 @@ main = async () => {
         .then(data => contents = data)
         //countdown
         setTimeout(async ()=>{
-            countdown -= step
+            countdown -= 1
+            countTime +=1
             if(countdown<=0){
                 await publishPagePost()
-                countdown = handleRandomTime((1440/contents.length))
+                countTime =0
+                countdown = handleRandomTime((1500/contents.length))
             } else {
-                console.log(`${formatTime(countdown)} - posted: ${posted} - fail: ${fail}`)
+                if(countTime%step==0) {
+                    countTime =0
+                    console.log(`${formatTime(countdown)} - posted: ${posted} - fail: ${fail}`)
+                }
             }
             // fail quá nhiều sẽ dừng lại
             if ( fail < 10) {
@@ -110,7 +116,7 @@ main = async () => {
             } else {
                 console.log(`Stop - posted: ${posted} - fail: ${fail}`)
             }
-        }, step*1000)
+        }, 1000)
     }
 
     countdownPost();

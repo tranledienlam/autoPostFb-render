@@ -1,10 +1,10 @@
 [
     {
-        "fromPage": "toicantien",
+        "fromPage": "autopost1",
         "toGroup": "me"
     },
     {
-        "fromPage": "cantienlaco",
+        "fromPage": "autopost2",
         "toGroup": "me"
     }
 ]
