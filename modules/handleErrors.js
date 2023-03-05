@@ -6,6 +6,7 @@ const handleErrors = async (error, idGroup) => {
     if(message.includes(`Unsupported request - method type: post`)) {
         
     } else {
+        console.log(error)
         console.log(`message: ${message}`)
     }
     // noti
