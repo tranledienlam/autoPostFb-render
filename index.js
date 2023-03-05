@@ -5,12 +5,13 @@ const fs = require('fs');
 const { PORT } = require('./config/config');
 const handlePublishPagePost = require('./modules/handlePublishPagePost');
 const connectDB = require('./config/db');
-const loadFinancialServicesCampaigns = require('./modules/loadFinancialServicesCampaigns');
+const loadContents = require('./modules/loadContents');
 const handleMessage = require('./modules/handleMessage');
 const formatTime = require('./modules/formatTime');
-const handleRandomCampaignPost = require('./modules/handleRandomCampaignPost');
+const handleRandomContent = require('./modules/handleRandomContent');
 const handleRandomTime = require('./modules/handleRandomTime');
 const randomPageAndGroup = require('./modules/randomPageAndGroup');
+const loadPagesAndGroups = require('./modules/loadPagesAndGroups');
 
 const app = express();
 
@@ -30,6 +31,7 @@ app.get('/', (req, res) => {
 
 main = async () => {
     contents = []
+    pagesAndGroups = []
     message = ''
     i = 0
     posted = 0
@@ -40,21 +42,26 @@ main = async () => {
     countdown = start // change s
 
     const publishPagePost = async () => {
-            // random campain to post
-            i = await handleRandomCampaignPost(contents)
+            //load & random data contents & hanlde mess
+            await loadContents()
+                .then(data => contents = data)
+            i = await handleRandomContent(contents)
+            // i = contents.length -1
+            // i = 1
+            message = await handleMessage(contents[i])
 
-            // random page and group
-            pageAndGroup = await randomPageAndGroup()
+            // load & random page and group
+            await loadPagesAndGroups()
+                .then(data => pagesAndGroups = data)
+            pageAndGroup = await randomPageAndGroup(pagesAndGroups)
+            //get ele page and group
             accessToken = pageAndGroup.accessToken
             fromPage = pageAndGroup.fromPage
             groupid = pageAndGroup.toGroup
             // autopost1
-            // accessToken = 'EAAKe2QystAcBABRdwUppDuW0VpdeBsBqK6nvEG0idqwEFUvqriYC4TwUhgkqtBf731YaATwPKZC8aW5ByaBymynewxZBZCGJJetgdaxU4E0UZAK58VZBP5NThSYkgl00ZByN0unpIHh3GBWWhZCwd0ZBadMdDOmELIeZBDlalerX0L8XoaTkEfilY'
-            // groupid = 'me'
-            // i = contents.length -1
-            // i = 2
+            accessToken = 'EAABqYNZAJb0wBAD0WZC3BRf1I3y3sEytDERc0TBFTzmqEyLESz1ol1dzvQxW0Aa0CTjqcxiZBZA7ZC5ryrlkFZBXMg4pohlSF6BzSrpZCObdAwzvcUxpRO2hqiLVciZAAur6aHYFCeZASqAHZAF18nGc6zZAxkwHkb9VOBlWKMOhnu9psR3xiYqAAPRbGHJlq2NPIcS7SzZBlzdgeQZDZD'
+            groupid = 'me'
 
-            message = await handleMessage(contents[i])
             // post to phtoto
             if(contents[i]?.toPhoto) {
                 console.log(`${fromPage} -> toPhoto ${groupid}`)
@@ -93,17 +100,16 @@ main = async () => {
     }
 
     const countdownPost = async () => {
-        //load data contents
-        await loadFinancialServicesCampaigns()
-        .then(data => contents = data)
+        
         //countdown
         setTimeout(async ()=>{
             countdown -= 1
             countTime +=1
             if(countdown<=0){
+                // posting
                 await publishPagePost()
                 countTime =0
-                countdown = handleRandomTime((1500/contents.length))
+                countdown = handleRandomTime((1500/pagesAndGroups.length))
             } else {
                 if(countTime%step==0) {
                     countTime =0
