@@ -59,7 +59,7 @@ main = async () => {
             fromPage = pageAndGroup.fromPage
             groupid = pageAndGroup.toGroup
             // autopost1
-            accessToken = 'EAABqYNZAJb0wBAD0WZC3BRf1I3y3sEytDERc0TBFTzmqEyLESz1ol1dzvQxW0Aa0CTjqcxiZBZA7ZC5ryrlkFZBXMg4pohlSF6BzSrpZCObdAwzvcUxpRO2hqiLVciZAAur6aHYFCeZASqAHZAF18nGc6zZAxkwHkb9VOBlWKMOhnu9psR3xiYqAAPRbGHJlq2NPIcS7SzZBlzdgeQZDZD'
+            // accessToken = 'EAABqYNZAJb0wBAD0WZC3BRf1I3y3sEytDERc0TBFTzmqEyLESz1ol1dzvQxW0Aa0CTjqcxiZBZA7ZC5ryrlkFZBXMg4pohlSF6BzSrpZCObdAwzvcUxpRO2hqiLVciZAAur6aHYFCeZASqAHZAF18nGc6zZAxkwHkb9VOBlWKMOhnu9psR3xiYqAAPRbGHJlq2NPIcS7SzZBlzdgeQZDZD'
             groupid = 'me'
 
             // post to phtoto
