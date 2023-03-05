@@ -46,13 +46,10 @@ main = async () => {
             await loadContents()
                 .then(data => contents = data)
             i = await handleRandomContent(contents)
-            // i = contents.length -1
-            // i = 1
-            message = await handleMessage(contents[i])
-
+            
             // load & random page and group
             await loadPagesAndGroups()
-                .then(data => pagesAndGroups = data)
+            .then(data => pagesAndGroups = data)
             pageAndGroup = await randomPageAndGroup(pagesAndGroups)
             //get ele page and group
             accessToken = pageAndGroup.accessToken
@@ -60,8 +57,11 @@ main = async () => {
             groupid = pageAndGroup.toGroup
             // autopost1
             // accessToken = 'EAABqYNZAJb0wBAD0WZC3BRf1I3y3sEytDERc0TBFTzmqEyLESz1ol1dzvQxW0Aa0CTjqcxiZBZA7ZC5ryrlkFZBXMg4pohlSF6BzSrpZCObdAwzvcUxpRO2hqiLVciZAAur6aHYFCeZASqAHZAF18nGc6zZAxkwHkb9VOBlWKMOhnu9psR3xiYqAAPRbGHJlq2NPIcS7SzZBlzdgeQZDZD'
-            groupid = 'me'
-
+            // groupid = 'me'
+            // i = contents.length -1
+            // i = 1
+            
+            message = await handleMessage(contents[i])
             // post to phtoto
             if(contents[i]?.toPhoto) {
                 console.log(`${fromPage} -> toPhoto ${groupid}`)
