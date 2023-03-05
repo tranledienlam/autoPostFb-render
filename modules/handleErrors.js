@@ -7,7 +7,6 @@ const handleErrors = async (error, idGroup) => {
         
     } else {
         console.log(error)
-        console.log(`message: ${message}`)
     }
     // noti
     if(message.includes(`Invalid parameter`)) {
